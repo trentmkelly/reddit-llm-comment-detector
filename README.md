@@ -27,32 +27,56 @@ All processing happens locally in your browser - no data is sent to external ser
 
 **Note: These extensions are not yet available on the Chrome Web Store or Firefox Add-ons store, but will be soon!**
 
-### Chrome Installation
+### Quick Installation (Recommended)
 
-1. **Clone or download this repository**
+**Download pre-built extensions:**
+
+1. **Go to the [Releases](https://github.com/trentmkelly/reddit-llm-comment-detector/releases) page**
+2. **Download the latest zip file for your browser:**
+   - `reddit-llm-comment-detector-chrome-v*.zip` for Chrome
+   - `reddit-llm-comment-detector-firefox-v*.zip` for Firefox
+
+#### Chrome Installation from Zip
+1. Download the Chrome zip file and extract it to a folder
+2. Open Chrome and go to `chrome://extensions/`
+3. Enable "Developer mode" (toggle in top right)
+4. Click "Load unpacked"
+5. Select the extracted folder
+6. The extension should now appear in your extensions list
+
+#### Firefox Installation from Zip
+1. Download the Firefox zip file and extract it to a folder
+2. Open Firefox and go to `about:debugging`
+3. Click "This Firefox"
+4. Click "Load Temporary Add-on"
+5. Navigate to the extracted folder and select `manifest.json`
+6. The extension will be loaded temporarily (until Firefox restart)
+
+### Build from Source
+
+If you prefer to build the extensions yourself:
+
+#### Chrome Build from Source
+
+1. **Clone the repository**
    ```bash
    git clone https://github.com/trentmkelly/reddit-llm-comment-detector.git
    cd reddit-llm-comment-detector/Chrome
    ```
 
-2. **Install dependencies**
+2. **Install dependencies and build**
    ```bash
    npm install
-   ```
-
-3. **Build the extension**
-   ```bash
    npm run build
    ```
 
-4. **Load in Chrome**
+3. **Load in Chrome**
    - Open Chrome and go to `chrome://extensions/`
    - Enable "Developer mode" (toggle in top right)
    - Click "Load unpacked"
    - Select the `build` directory from the Chrome folder
-   - The extension should now appear in your extensions list
 
-### Firefox Installation
+#### Firefox Build from Source
 
 1. **Navigate to Firefox folder**
    ```bash
@@ -70,7 +94,6 @@ All processing happens locally in your browser - no data is sent to external ser
    - Click "This Firefox"
    - Click "Load Temporary Add-on"
    - Select the `manifest.json` file from the `build` directory
-   - The extension will be loaded temporarily
 
 ## 📋 Features
 

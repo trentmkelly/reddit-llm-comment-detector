@@ -80,13 +80,20 @@ jspm_packages/
 # dotenv environment variables file
 .env
 
-# Chrome extension specific
+# Chrome extension specific (but allow releases)
 **/chrome-extension.zip
 **/reddit-ai-comment-detector.zip
 
-# Firefox extension specific
+# Firefox extension specific (but allow releases)
 **/firefox-extension.zip
 **/web-ext-artifacts/
+
+# Build script (exclude from repository)
+build-releases.sh
+build-releases.js
+
+# Allow release zip files
+!releases/*.zip
 
 # Webpack build artifacts
 **/webpack-stats.json
