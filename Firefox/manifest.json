@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Reddit LLM Comment Detector",
+  "version": "1.0",
+  "description": "Detects potential LLM-generated comments on Reddit and adds a warning.",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.reddit.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.reddit.com/*"],
+      "js": ["transformers.min.js", "content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["transformers.min.js"],
+      "matches": ["*://*.reddit.com/*"]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "reddit-llm-detector@example.com"
+    }
+  }
+}

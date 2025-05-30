@@ -1,0 +1,99 @@
+# Dependencies
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+**/build/
+**/dist/
+**/lib/
+
+# Browser extension zip files
+*.zip
+**/*.zip
+
+# Large ML model files and ONNX runtime
+**/*.onnx
+**/*.bin
+**/onnxruntime-*
+**/*onnxruntime*
+**/*.so
+**/*.dll
+**/*.dylib
+
+# Transformers.js cache and models
+**/.cache/
+**/transformers-cache/
+**/models/
+**/*transformers*.js
+**/*transformers*.min.js
+**/*transformers*.map
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# Chrome extension specific
+**/chrome-extension.zip
+**/reddit-ai-comment-detector.zip
+
+# Firefox extension specific
+**/firefox-extension.zip
+**/web-ext-artifacts/
+
+# Webpack build artifacts
+**/webpack-stats.json
+**/bundle-analyzer-report.html
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

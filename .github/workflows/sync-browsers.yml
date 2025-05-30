@@ -1,0 +1,35 @@
+name: Sync Browser Extensions
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'Chrome/src/**'
+      - 'Chrome/manifest.json'
+      - 'Chrome/package.json'
+
+jobs:
+  sync-firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: |
+          cd Chrome && npm install
+          
+      - name: Build Firefox version
+        run: npm run build:firefox
+        
+      - name: Commit Firefox changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add Firefox/
+          git diff --staged --quiet || git commit -m "Auto-sync Firefox extension from Chrome changes"
+          git push

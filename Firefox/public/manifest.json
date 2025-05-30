@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "Reddit AI Comment Detector",
+  "description": "Detects and highlights potentially AI-generated Reddit comments, tracks user scores, and helps identify patterns in AI-generated content.",
+  "version": "1.0.0",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "contextMenus",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.reddit.com/*",
+        "*://old.reddit.com/*",
+        "*://sh.reddit.com/*",
+        "*://new.reddit.com/*",
+        "*://www.reddit.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "minimum_chrome_version": "92",
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "24": "icons/icon-24.png",
+      "32": "icons/icon-32.png"
+    },
+    "default_title": "AI Comment Detector",
+    "default_popup": "popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128x128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "*.wasm", 
+        "*.mjs",
+        "666d0398a1e13e9c0c1d.wasm",
+        "e34a2307c15be978b153.mjs",
+        "ort-wasm-simd-threaded.jsep.wasm",
+        "ort-wasm-simd-threaded.jsep.mjs"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "reddit-llm-detector@example.com"
+    }
+  }
+}
