@@ -18,7 +18,7 @@ let currentSettings = DEFAULT_SETTINGS;
 function loadSettings() {
     return new Promise((resolve) => {
         try {
-            chrome.storage.local.get([SETTINGS_KEY], (result) => {
+            browser.storage.local.get([SETTINGS_KEY], (result) => {
                 const stored = result[SETTINGS_KEY];
                 console.log('🔧 SETTINGS DEBUG: Raw stored settings:', stored);
                 const finalSettings = stored ? { ...DEFAULT_SETTINGS, ...stored } : DEFAULT_SETTINGS;
@@ -40,7 +40,7 @@ loadSettings().then(settings => {
 });
 
 // Listen for messages from popup
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'settingsChanged') {
         console.log('🔧 SETTINGS DEBUG: Received settings change message:', message.settings);
         console.log('🔧 SETTINGS DEBUG: Old settings:', currentSettings);
@@ -108,7 +108,7 @@ class UserScoreManager {
     }
     
     loadUserData() {
-        chrome.storage.local.get([this.storageKey], (result) => {
+        browser.storage.local.get([this.storageKey], (result) => {
             try {
                 this.userData = result[this.storageKey] || {};
                 console.log('User data loaded:', Object.keys(this.userData).length, 'users');
@@ -121,7 +121,7 @@ class UserScoreManager {
     
     saveUserData() {
         try {
-            chrome.storage.local.set({ [this.storageKey]: this.userData }, () => {
+            browser.storage.local.set({ [this.storageKey]: this.userData }, () => {
                 console.log('User data saved');
             });
         } catch (error) {
@@ -475,9 +475,9 @@ async function ensureModelReady() {
         
         console.log('Checking if model is ready...');
         
-        chrome.runtime.sendMessage(testMessage, (response) => {
-            if (chrome.runtime.lastError) {
-                console.error('Model ready check failed:', chrome.runtime.lastError);
+        browser.runtime.sendMessage(testMessage, (response) => {
+            if (browser.runtime.lastError) {
+                console.error('Model ready check failed:', browser.runtime.lastError);
                 resolve(false);
             } else if (response && response.error) {
                 console.error('Model ready check error:', response.error);
@@ -503,10 +503,10 @@ async function classifyComment(text, retryCount = 0) {
         console.log('Sending message to background script:', message);
         
         return new Promise((resolve) => {
-            chrome.runtime.sendMessage(message, (response) => {
+            browser.runtime.sendMessage(message, (response) => {
                 console.log('Received response from background script:', response);
-                if (chrome.runtime.lastError) {
-                    console.error('Chrome runtime error:', chrome.runtime.lastError);
+                if (browser.runtime.lastError) {
+                    console.error('Chrome runtime error:', browser.runtime.lastError);
                     resolve(null);
                 } else if (response && response.error) {
                     console.error('Background script error:', response.error);
@@ -1087,6 +1087,19 @@ const observer = new MutationObserver((mutations) => {
 observer.observe(document.body, {
     childList: true,
     subtree: true
+});
+
+// Listen for storage changes
+browser.storage.onChanged.addListener((changes, areaName) => {
+  console.log(`Storage changed in area: ${areaName}`, changes);
+  if (areaName === 'local' && changes['reddit-user-scores']) {
+    console.log('User scores changed. Reloading data and updating displays.');
+    userScoreManager.loadUserData();
+    userScoreManager.updateAllUserDisplays();
+    console.log('User data reloaded and displays updated.');
+  }
+  // You can add more specific logic here if needed,
+  // for example, to react to specific settings changes.
 });
 
 // Also process when page navigation occurs (for SPA behavior)

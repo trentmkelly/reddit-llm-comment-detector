@@ -1089,6 +1089,19 @@ observer.observe(document.body, {
     subtree: true
 });
 
+// Listen for storage changes
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  console.log(`Storage changed in area: ${areaName}`, changes);
+  if (areaName === 'local' && changes['reddit-user-scores']) {
+    console.log('User scores changed. Reloading data and updating displays.');
+    userScoreManager.loadUserData();
+    userScoreManager.updateAllUserDisplays();
+    console.log('User data reloaded and displays updated.');
+  }
+  // You can add more specific logic here if needed,
+  // for example, to react to specific settings changes.
+});
+
 // Also process when page navigation occurs (for SPA behavior)
 let currentUrl = window.location.href;
 setInterval(() => {
