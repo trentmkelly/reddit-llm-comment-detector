@@ -219,6 +219,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             }).catch(() => {
                 // Ignore errors if background script isn't ready
             });
+
+            // Clear stored scores and notify content script
+            chrome.storage.local.remove('reddit-user-scores');
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                if (tabs[0]) {
+                    chrome.tabs.sendMessage(tabs[0].id, {
+                        action: 'clearData'
+                    }).catch(() => {
+                        // Ignore errors if content script isn't loaded
+                    });
+                }
+            });
             
             // Notify content script of settings change
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -234,6 +246,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
+    // Export User Data button
+    document.getElementById('exportUserData').addEventListener('click', async () => {
+        chrome.storage.local.get(['reddit-user-scores'], async (result) => {
+            const userData = result['reddit-user-scores'] || {};
+            const settings = await loadSettings();
+            const selectedModel = settings.selectedModel;
+
+            const csvRows = [['Username', 'PostsScanned', 'AIPosts', 'HumanPosts', 'ModelUsed']];
+
+            for (const username in userData) {
+                if (Object.prototype.hasOwnProperty.call(userData, username)) {
+                    const userRecord = userData[username];
+                    const comments = userRecord.comments || {};
+                    const postsScanned = Object.keys(comments).length;
+                    let aiPosts = 0;
+                    for (const commentId in comments) {
+                        if (Object.prototype.hasOwnProperty.call(comments, commentId)) {
+                            if (comments[commentId].isAI === true) {
+                                aiPosts++;
+                            }
+                        }
+                    }
+                    const humanPosts = postsScanned - aiPosts;
+                    csvRows.push([username, postsScanned, aiPosts, humanPosts, selectedModel]);
+                }
+            }
+
+            const csvString = csvRows.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'reddit_user_data_export.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        });
+    });
+
     // Clear data button
     document.getElementById('clearData').addEventListener('click', () => {
         if (confirm('Are you sure you want to clear all stored user data and scores?')) {
