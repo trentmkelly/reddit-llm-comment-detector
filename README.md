@@ -192,6 +192,7 @@ MIT License - see LICENSE file for details.
 ## 🙏 Acknowledgments
 
 - Built with [🤗 Transformers.js](https://huggingface.co/docs/transformers.js)
+- Extension code loosely based on [Transformers.js browser extension example](https://github.com/huggingface/transformers.js/tree/main/examples/extension)
 - Detection models trained on curated datasets
 - Inspired by the need for transparency in AI-generated content
 
