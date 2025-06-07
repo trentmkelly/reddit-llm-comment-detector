@@ -25,9 +25,15 @@ All processing happens locally in your browser - no data is sent to external ser
 
 ## 🚀 Installation
 
-**Note: These extensions are not yet available on the Chrome Web Store or Firefox Add-ons store, but will be soon!**
+### Chrome Web Store (Recommended)
 
-### Quick Installation (Recommended)
+**[📱 Install from Chrome Web Store](https://chromewebstore.google.com/detail/reddit-ai-comment-detecto/mkpjidfddjkkdpokcnhbjcjfadelpjee)**
+
+The easiest way to install the extension is directly from the Chrome Web Store.
+
+**Note: Firefox Add-ons store version coming soon!**
+
+### Manual Installation
 
 **Download pre-built extensions:**
 
